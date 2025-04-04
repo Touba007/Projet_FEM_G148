@@ -1,0 +1,7 @@
+Type of problem    :  Planar stresses  
+Young modulus      :  2.1100000e+11  
+Poisson ratio      :  3.0000000e-01  
+Mass density       :  7.8500000e+03  
+Gravity-Y          : -9.8100000e+00  
+Boundary condition :  Dirichlet-Y        =  0.0000000e+00: Bottom Contact Surface
+Boundary condition :  Neumann-Y          =  5.0000000e+09: Top Contact Surface
