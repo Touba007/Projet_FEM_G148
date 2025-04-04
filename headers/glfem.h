@@ -36,6 +36,10 @@ void 		    glfemSetRasterSize(int width, int height);
 GLFWwindow*     glfemInit(char *windowName);
 static void     glfemKeyCallback(GLFWwindow* self,int key,int scancode,int action,int mods);
 
+void glfemDrawColorBar(double minVal, double maxVal);
+void glfemGetColor(double value, double min, double max, float *r, float *g, float *b);
+
+
 
 
 

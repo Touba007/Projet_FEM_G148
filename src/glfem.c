@@ -393,7 +393,97 @@ GLFWwindow* glfemInit(char *theWindowName)
     return(window);
 }
 
+void glfemGetColor(double value, double min, double max, float *r, float *g, float *b)
+{
+    double scaled = glScale(min, max, value);
 
+    if (scaled < 0.25) {
+        *r = 0.0;
+        *g = 4.0 * scaled;
+        *b = 1.0;
+    } else if (scaled < 0.5) {
+        *r = 0.0;
+        *g = 1.0;
+        *b = 1.0 - 4.0 * (scaled - 0.25);
+    } else if (scaled < 0.75) {
+        *r = 4.0 * (scaled - 0.5);
+        *g = 1.0;
+        *b = 0.0;
+    } else {
+        *r = 1.0;
+        *g = 1.0 - 4.0 * (scaled - 0.75);
+        *b = 0.0;
+    }
+}
+
+void glfemDrawColorBar(double minVal, double maxVal)
+{
+    int N = 100;
+    float r, g, b;
+
+    double x0 = 0.88;            // Top-right x
+    double y0 = 0.4;             // Bottom y
+    double width = 0.04;
+    double height = 0.5;
+
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    glLoadIdentity();
+    glOrtho(0.0, 1.0, 0.0, 1.0, -1.0, 1.0);
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glLoadIdentity();
+
+    // Draw gradient
+    for (int i = 0; i < N; ++i) {
+        double value = minVal + i * (maxVal - minVal) / (double)(N - 1);
+        glfemGetColor(value, minVal, maxVal, &r, &g, &b);
+
+        double yBottom = y0 + (i / (double)N) * height;
+        double yTop = y0 + ((i + 1) / (double)N) * height;
+
+        glColor3f(r, g, b);
+        glBegin(GL_QUADS);
+            glVertex2f(x0, yBottom);
+            glVertex2f(x0 + width, yBottom);
+            glVertex2f(x0 + width, yTop);
+            glVertex2f(x0, yTop);
+        glEnd();
+    }
+
+    // Draw border
+    glColor3f(0.0, 0.0, 0.0);
+    glBegin(GL_LINE_LOOP);
+        glVertex2f(x0, y0);
+        glVertex2f(x0 + width, y0);
+        glVertex2f(x0 + width, y0 + height);
+        glVertex2f(x0, y0 + height);
+    glEnd();
+
+    // Draw numeric labels with glfemDrawMessage
+    char label[64];
+    double ticks[3] = {
+        minVal,
+        0.5 * (minVal + maxVal),
+        maxVal
+    };
+    double yTicks[3] = {
+        y0,
+        y0 + 0.5 * height,
+        y0 + height
+    };
+
+    for (int i = 0; i < 3; ++i) {
+        sprintf(label, "%.2e", ticks[i]);
+        glColor3f(0.0, 0.0, 0.0);
+        glfemDrawMessage(x0 + width + 0.01, yTicks[i] - 0.01, label);
+    }
+
+    glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
+    glMatrixMode(GL_MODELVIEW);
+    glPopMatrix();
+}
 
 
 
