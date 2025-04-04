@@ -1,4 +1,4 @@
-# 🧮 Finite Element Analysis – Mousqueton Simulation
+# 🧬 Finite Element Analysis – Mousqueton Simulation
 
 ## 🔸 Group 148
 
@@ -46,7 +46,7 @@ The program includes mesh generation with GMSH, automatic mesh cleaning using Py
 
 ### 1. 🧱 Set up Python environment
 
-At the root of the project, create a virtual environment and install `numpy`:
+At the root of the project, create a virtual environment named **`.venv`** and install `numpy`:
 
 ```bash
 python3 -m venv .venv
@@ -54,7 +54,9 @@ source .venv/bin/activate
 pip install numpy
 ```
 
-> This environment is used to run the Python script `fixmesh.py` which is automatically called from the `run.c` program.
+> ⚠️ **IMPORTANT**: The virtual environment **must be named exactly `.venv`**. The C program runs the Python script using `.venv/bin/python`. If the folder is named differently, it will not work.
+
+This environment is used to run the Python script `fixmesh.py` which is automatically called from the `run.c` program.
 
 ### 2. 🛠️ Compile and Run
 
@@ -91,7 +93,7 @@ make run ARGS=" ... "
 |--------------|--------------------------------------|
 | `--o`        | Open carabiner                       |
 | *(default)*  | Closed carabiner                     |
-| `--fine`     | Smaller mesh size (0.25)             |
+| `--fine`     | Smaller mesh size (0.20)             |
 | `--tiny`     | Very fine mesh (0.1)                 |
 | `--fweak`    | Weak downward force (2e6 N)          |
 | `--fstrong`  | Strong downward force (5e6 N)        |
