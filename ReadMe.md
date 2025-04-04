@@ -36,7 +36,6 @@ The program includes mesh generation with GMSH, automatic mesh cleaning using Py
 │
 ├── .venv/                        # Python virtual environment (excluded from Git)
 ├── Makefile                     # Build / run automation
-├── requirements.txt             # Python dependencies
 ├── .gitignore
 └── README.md
 ```
@@ -47,24 +46,36 @@ The program includes mesh generation with GMSH, automatic mesh cleaning using Py
 
 ### 1. 🧱 Set up Python environment
 
+At the root of the project, create a virtual environment and install `numpy`:
+
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install numpy
 ```
+
+> This environment is used to run the Python script `fixmesh.py` which is automatically called from the `run.c` program.
 
 ### 2. 🛠️ Compile and Run
 
+To compile the code, use : 
+
 ```bash
 make build
-make run ARGS="--o --steel --tiny --amplify"
 ```
 
-Or directly:
+To run the code with the default arguments, use : 
 
 ```bash
-make run 
+make run
 ```
+
+You can run the code with the flags defined below using :
+
+```bash
+make run ARGS=" ... "
+```
+
 
 ✅ `run.c` will automatically:
 - Generate a GMSH mesh
@@ -80,7 +91,7 @@ make run
 |--------------|--------------------------------------|
 | `--o`        | Open carabiner                       |
 | *(default)*  | Closed carabiner                     |
-| `--fine`     | Smaller mesh size (0.20)             |
+| `--fine`     | Smaller mesh size (0.25)             |
 | `--tiny`     | Very fine mesh (0.1)                 |
 | `--fweak`    | Weak downward force (2e6 N)          |
 | `--fstrong`  | Strong downward force (5e6 N)        |
